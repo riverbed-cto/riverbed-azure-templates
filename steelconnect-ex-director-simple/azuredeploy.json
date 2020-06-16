@@ -300,7 +300,8 @@
                             "privateIPAddress": "10.1.1.20",
                             "publicIpAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-                            }
+                            },
+                            "primary": true
                         }
                     }
                 ],
