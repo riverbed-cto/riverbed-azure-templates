@@ -763,7 +763,7 @@
          {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('directorName')]",
+            "name": "[parameters('controllerName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerMiddleNetworkInterfaceName'))]",
