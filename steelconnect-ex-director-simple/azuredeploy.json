@@ -348,7 +348,7 @@
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
-                            "sourcevnetAddressPrefix": "*",
+                            "sourceAddressPrefix": "*",
                             "sourcePortRange": "*",
                             "destinationvnetAddressPrefix": "*",
                             "destinationPortRange": "22"
@@ -361,7 +361,7 @@
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
-                            "sourcevnetAddressPrefix": "*",
+                            "sourceAddressPrefix": "*",
                             "sourcePortRange": "*",
                             "destinationvnetAddressPrefix": "*",
                             "destinationPortRange": "80"
@@ -374,7 +374,7 @@
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
-                            "sourcevnetAddressPrefix": "*",
+                            "sourceAddressPrefix": "*",
                             "sourcePortRange": "*",
                             "destinationvnetAddressPrefix": "*",
                             "destinationPortRange": "443"
@@ -453,7 +453,7 @@
                         }
                     },
                     "imageReference": {
-                        "id": "[resourceId('Microsoft.Compute/galleries/images/versions', parameters('galleryName'), parameters('galleryImageDefinitionName'), parameters('galleryImageVersionName'))]"
+                        "id": "/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-Director/versions/20.2.1"
                     }
                 },
                 "networkProfile": {
