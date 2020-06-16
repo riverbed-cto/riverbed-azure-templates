@@ -237,14 +237,14 @@
         },
         "North Subnet": {
             "type": "string",
-            "defaultValue": "Subnet",
+            "defaultValue": "NorthSubnet",
             "metadata": {
                 "description": "Name of the northbound subnet in the virtual network"
             }
         },
         "South Subnet": {
             "type": "string",
-            "defaultValue": "Subnet",
+            "defaultValue": "SouthSubnet",
             "metadata": {
                 "description": "Name of the southbound subnet in the virtual network"
             }
@@ -262,7 +262,6 @@
         "northNetworkInterfaceName": "[concat(parameters('directorName'),'NorthNetInt')]",
         "southNetworkInterfaceName": "[concat(parameters('directorName'),'SouthNetInt')]",
         "northSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('North Subnet'))]",
-        "southSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('South Subnet'))]",
         "osDiskType": "Standard_LRS",
         "northSubnetvnetAddressPrefix": "10.1.0.0/24",
         "southSubnetvnetAddressPrefix": "10.2.0.0/24",
@@ -377,7 +376,7 @@
             "location": "[variables('location')]",
             "properties": {
                 "addressSpace": {
-                    "vnetAddressPrefixes": [
+                    "addressPrefixes": [
                         "[variables('vnetAddressPrefix')]"
                     ]
                 },
@@ -385,7 +384,7 @@
                     {
                         "name": "[parameters('North Subnet')]",
                         "properties": {
-                            "vnetAddressPrefix": "[variables('northSubnetvnetAddressPrefix')]",
+                            "addressPrefix": "[variables('northSubnetvnetAddressPrefix')]",
                             "privateEndpointNetworkPolicies": "Enabled",
                             "privateLinkServiceNetworkPolicies": "Enabled"
                         }
@@ -393,7 +392,7 @@
                     {
                         "name": "[parameters('South Subnet')]",
                         "properties": {
-                            "vnetAddressPrefix": "[variables('southSubnetvnetAddressPrefix')]",
+                            "addressPrefix": "[variables('southSubnetvnetAddressPrefix')]",
                             "privateEndpointNetworkPolicies": "Enabled",
                             "privateLinkServiceNetworkPolicies": "Enabled"
                         }
