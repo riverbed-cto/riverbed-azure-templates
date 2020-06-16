@@ -2,17 +2,17 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "vmName": {
+        "directorName": {
             "type": "string",
-            "defaultValue": "simpleLinuxVM",
+            "defaultValue": "director",
             "metadata": {
-                "description": "The name of you Virtual Machine."
+                "description": "The name of you SteelConnect-EX Director."
             }
         },
         "adminUsername": {
             "type": "string",
             "metadata": {
-                "description": "Username for the Virtual Machine."
+                "description": "Username for the SteelConnect-EX Director."
             }
         },
         "authenticationType": {
@@ -23,33 +23,20 @@
                 "password"
             ],
             "metadata": {
-                "description": "Type of authentication to use on the Virtual Machine. SSH key is recommended."
+                "description": "Type of authentication to use on the SteelConnect-EX Director. SSH key is recommended."
             }
         },
         "adminPasswordOrKey": {
             "type": "securestring",
             "metadata": {
-                "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."
+                "description": "SSH Key or password for the SteelConnect-EX Director. SSH key is recommended."
             }
         },
         "dnsLabelPrefix": {
             "type": "string",
             "defaultValue": "[toLower(concat('simplelinuxvm-', uniqueString(resourceGroup().id)))]",
             "metadata": {
-                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-            }
-        },
-        "ubuntuOSVersion": {
-            "type": "string",
-            "defaultValue": "18.04-LTS",
-            "allowedValues": [
-                "12.04.5-LTS",
-                "14.04.5-LTS",
-                "16.04.0-LTS",
-                "18.04-LTS"
-            ],
-            "metadata": {
-                "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version."
+                "description": "Unique DNS Name for the Public IP used to access the SteelConnect-EX Director."
             }
         },
         "location": {
@@ -57,6 +44,24 @@
             "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "Location for all resources."
+            }
+        },
+        "galleryName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Shared Image Gallery."
+            }
+        },
+        "galleryImageDefinitionName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Image Definition."
+            }
+        },
+        "galleryImageVersionName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Image Version - should follow <MajorVersion>.<MinorVersion>.<Patch>."
             }
         },
         "VmSize": {
@@ -89,8 +94,8 @@
         }
     },
     "variables": {
-        "publicIpAddressName": "[concat(parameters('vmName'), 'PublicIP' )]",
-        "networkInterfaceName": "[concat(parameters('vmName'),'NetInt')]",
+        "publicIpAddressName": "[concat(parameters('directorName'), 'PublicIP' )]",
+        "networkInterfaceName": "[concat(parameters('directorName'),'NetInt')]",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]",
         "osDiskType": "Standard_LRS",
         "subnetAddressPrefix": "10.1.0.0/24",
@@ -205,7 +210,7 @@
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('vmName')]",
+            "name": "[parameters('directorName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
@@ -214,18 +219,15 @@
                 "hardwareProfile": {
                     "vmSize": "[parameters('VmSize')]"
                 },
-                "storageProfile": {
-                    "osDisk": {
+                 "storageProfile": {
+                     "osDisk": {
                         "createOption": "fromImage",
                         "managedDisk": {
                             "storageAccountType": "[variables('osDiskType')]"
                         }
                     },
                     "imageReference": {
-                        "publisher": "Canonical",
-                        "offer": "UbuntuServer",
-                        "sku": "[parameters('ubuntuOSVersion')]",
-                        "version": "latest"
+                        "id": "[resourceId('Microsoft.Compute/galleries/images/versions', parameters('galleryName'), parameters('galleryImageDefinitionName'), parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile": {
@@ -236,7 +238,7 @@
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[parameters('vmName')]",
+                    "computerName": "[parameters('directorName')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPasswordOrKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
