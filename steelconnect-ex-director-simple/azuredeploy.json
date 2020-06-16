@@ -34,14 +34,14 @@
         },
         "dnsLabelPrefix": {
             "type": "string",
-            "defaultValue": "[toLower(concat('simplelinuxvm-', uniqueString(resourceGroup().id)))]",
+            "defaultValue": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
             "metadata": {
                 "description": "Unique DNS Name for the Public IP used to access the SteelConnect-EX Director."
             }
         },
         "location": {
             "type": "string",
-            "defaultValue": "[resourceGroup().location]",
+            "defaultValue": "[concat('site', uniqueString(resourceGroup().id))]",
             "metadata": {
                 "description": "Location for all resources."
             }
