@@ -465,7 +465,10 @@
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('southNetworkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('southNetworkInterfaceName'))]",
+                            "properties": {
+                                "primary": false
+                            }
                         }
                     ]
                 },
