@@ -41,7 +41,7 @@
         },
         "galleryImageDefinitionName": {
             "type": "string",
-            "default": "SteelConnect-EX-Director"
+            "default": "SteelConnect-EX-Director",
             "metadata": {
                 "description": "Name of the Image Definition."
             }
