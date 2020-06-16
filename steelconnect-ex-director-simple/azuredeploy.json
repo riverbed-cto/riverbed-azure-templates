@@ -318,7 +318,7 @@
             "name": "[variables('southNetworkInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
             ]
         },
         {
