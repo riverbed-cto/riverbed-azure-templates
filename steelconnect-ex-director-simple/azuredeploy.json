@@ -306,8 +306,7 @@
                 ],
                 "networkSecurityGroup": {
                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups',variables('networkSecurityGroupName'))]"
-                },
-                "primary": true
+                }
             }
         },
         {
@@ -460,7 +459,10 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('northNetworkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('northNetworkInterfaceName'))]",
+                            "properties": {
+                                "primary": true
+                            }
                         },
                         {
                             "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('southNetworkInterfaceName'))]"
