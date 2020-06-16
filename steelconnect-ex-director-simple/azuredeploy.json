@@ -41,7 +41,7 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "[concat('site', uniqueString(resourceGroup().id))]",
+            "defaultValue": "[resourceGroup().location]",
             "metadata": {
                 "description": "Location for all resources."
             }
