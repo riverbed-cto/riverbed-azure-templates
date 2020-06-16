@@ -357,7 +357,7 @@
                     {
                         "name": "HTTP",
                         "properties": {
-                            "priority": 1000,
+                            "priority": 1010,
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
@@ -370,7 +370,7 @@
                     {
                         "name": "HTTPS",
                         "properties": {
-                            "priority": 1000,
+                            "priority": 1020,
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
