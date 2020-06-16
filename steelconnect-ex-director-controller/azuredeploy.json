@@ -452,8 +452,8 @@
         "directorNorthNetworkInterfaceName": "[concat(parameters('directorName'),'NorthNetInt')]",
         "directorMiddleNetworkInterfaceName": "[concat(parameters('directorName'),'MiddleNetInt')]",
         "controllerPublicIpAddressName": "[concat(parameters('controllerName'), 'PublicIP' )]",
-        "controllerMiddleNetworkInterfaceName": "[concat(parameters('controller'),'MiddleNetInt')]",
-        "controllerSouthNetworkInterfaceName": "[concat(parameters('controller'),'ControllerNetInt')]",
+        "controllerMiddleNetworkInterfaceName": "[concat(parameters('controllerName'),'MiddleNetInt')]",
+        "controllerSouthNetworkInterfaceName": "[concat(parameters('controllerName'),'ControllerNetInt')]",
         "northSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('North Subnet'))]",
         "middleSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Middle Subnet'))]",
         "southSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('South Subnet'))]",
@@ -550,7 +550,7 @@
                         "name": "ipconfig3",
                         "properties": {
                             "subnet": {
-                                "id": "[variables('northSubnetRef')]"
+                                "id": "[variables('middleSubnetRef')]"
                             },
                             "privateIPAllocationMethod": "Static",
                             "privateIPAddressVersion": "IPv4",
