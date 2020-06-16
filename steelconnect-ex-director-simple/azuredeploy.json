@@ -41,14 +41,14 @@
         },
         "galleryImageDefinitionName": {
             "type": "string",
-            "default": "SteelConnect-EX-Director",
+            "defaultValue": "SteelConnect-EX-Director",
             "metadata": {
                 "description": "Name of the Image Definition."
             }
         },
         "galleryImageVersionName": {
             "type": "string",
-            "default": "20.2.1",
+            "defaultValue": "20.2.1",
             "metadata": {
                 "description": "Name of the Image Version - should follow <MajorVersion>.<MinorVersion>.<Patch>."
             }
