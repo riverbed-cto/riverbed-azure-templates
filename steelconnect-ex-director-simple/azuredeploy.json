@@ -56,7 +56,7 @@
         },
         "VmSize": {
             "type": "string",
-            "defaultValue": "Standard_B2s",
+            "defaultValue": "Standard_F8s_v2",
             "allowedValues": [
                 "Basic_A0",
                 "Basic_A1",
@@ -258,8 +258,8 @@
         "northSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('North Subnet'))]",
         "southSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('South Subnet'))]",
         "osDiskType": "Standard_LRS",
-        "northSubnetvnetAddressPrefix": "10.1.0.0/24",
-        "southSubnetvnetAddressPrefix": "10.2.0.0/24",
+        "northSubnetAddressPrefix": "10.1.1.0/24",
+        "southSubnetAddressPrefix": "10.1.2.0/24",
         "vnetAddressPrefix": "10.1.0.0/16",
         "location": "[resourceGroup().location]",
         "dnsLabelPrefix": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
@@ -297,7 +297,7 @@
                             },
                             "privateIPAllocationMethod": "Static",
                             "privateIPAddressVersion": "IPv4",
-                            "privateIPAddress": "10.1.0.20",
+                            "privateIPAddress": "10.1.1.20",
                             "publicIpAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
                             }
@@ -324,7 +324,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Static",
                             "privateIPAddressVersion": "IPv4",
-                            "privateIPAddress": "10.2.0.20",
+                            "privateIPAddress": "10.1.2.20",
                             "subnet": {
                                 "id": "[variables('southSubnetRef')]"
                             }
@@ -398,7 +398,7 @@
                     {
                         "name": "[parameters('North Subnet')]",
                         "properties": {
-                            "addressPrefix": "[variables('northSubnetvnetAddressPrefix')]",
+                            "addressPrefix": "[variables('northSubnetAddressPrefix')]",
                             "privateEndpointNetworkPolicies": "Enabled",
                             "privateLinkServiceNetworkPolicies": "Enabled"
                         }
@@ -406,7 +406,7 @@
                     {
                         "name": "[parameters('South Subnet')]",
                         "properties": {
-                            "addressPrefix": "[variables('southSubnetvnetAddressPrefix')]",
+                            "addressPrefix": "[variables('southSubnetAddressPrefix')]",
                             "privateEndpointNetworkPolicies": "Enabled",
                             "privateLinkServiceNetworkPolicies": "Enabled"
                         }
