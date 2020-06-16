@@ -32,34 +32,23 @@
                 "description": "SSH Key or password for the SteelConnect-EX Director. SSH key is recommended."
             }
         },
-        "dnsLabelPrefix": {
-            "type": "string",
-            "defaultValue": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
-            "metadata": {
-                "description": "Unique DNS Name for the Public IP used to access the SteelConnect-EX Director."
-            }
-        },
-        "location": {
-            "type": "string",
-            "defaultValue": "[resourceGroup().location]",
-            "metadata": {
-                "description": "Location for all resources."
-            }
-        },
         "galleryName": {
             "type": "string",
+            "defaultValue": "Images",
             "metadata": {
                 "description": "Name of the Shared Image Gallery."
             }
         },
         "galleryImageDefinitionName": {
             "type": "string",
+            "default": "SteelConnect-EX-Director"
             "metadata": {
                 "description": "Name of the Image Definition."
             }
         },
         "galleryImageVersionName": {
             "type": "string",
+            "default": "20.2.1",
             "metadata": {
                 "description": "Name of the Image Version - should follow <MajorVersion>.<MinorVersion>.<Patch>."
             }
@@ -67,6 +56,174 @@
         "VmSize": {
             "type": "string",
             "defaultValue": "Standard_B2s",
+            "allowedValues": [
+                "Basic_A0",
+                "Basic_A1",
+                "Basic_A2",
+                "Basic_A3",
+                "Basic_A4",
+                "Standard_A0",
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_A5",
+                "Standard_A6",
+                "Standard_A7",
+                "Standard_A8",
+                "Standard_A9",
+                "Standard_A10",
+                "Standard_A11",
+                "Standard_A1_v2",
+                "Standard_A2_v2",
+                "Standard_A4_v2",
+                "Standard_A8_v2",
+                "Standard_A2m_v2",
+                "Standard_A4m_v2",
+                "Standard_A8m_v2",
+                "Standard_B1s",
+                "Standard_B1ms",
+                "Standard_B2s",
+                "Standard_B2ms",
+                "Standard_B4ms",
+                "Standard_B8ms",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_D11",
+                "Standard_D12",
+                "Standard_D13",
+                "Standard_D14",
+                "Standard_D1_v2",
+                "Standard_D2_v2",
+                "Standard_D3_v2",
+                "Standard_D4_v2",
+                "Standard_D5_v2",
+                "Standard_D2_v3",
+                "Standard_D4_v3",
+                "Standard_D8_v3",
+                "Standard_D16_v3",
+                "Standard_D32_v3",
+                "Standard_D64_v3",
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3",
+                "Standard_D16s_v3",
+                "Standard_D32s_v3",
+                "Standard_D64s_v3",
+                "Standard_D11_v2",
+                "Standard_D12_v2",
+                "Standard_D13_v2",
+                "Standard_D14_v2",
+                "Standard_D15_v2",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS11",
+                "Standard_DS12",
+                "Standard_DS13",
+                "Standard_DS14",
+                "Standard_DS1_v2",
+                "Standard_DS2_v2",
+                "Standard_DS3_v2",
+                "Standard_DS4_v2",
+                "Standard_DS5_v2",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2",
+                "Standard_DS15_v2",
+                "Standard_DS13-4_v2",
+                "Standard_DS13-2_v2",
+                "Standard_DS14-8_v2",
+                "Standard_DS14-4_v2",
+                "Standard_E2_v3",
+                "Standard_E4_v3",
+                "Standard_E8_v3",
+                "Standard_E16_v3",
+                "Standard_E32_v3",
+                "Standard_E64_v3",
+                "Standard_E2s_v3",
+                "Standard_E4s_v3",
+                "Standard_E8s_v3",
+                "Standard_E16s_v3",
+                "Standard_E32s_v3",
+                "Standard_E64s_v3",
+                "Standard_E32-16_v3",
+                "Standard_E32-8s_v3",
+                "Standard_E64-32s_v3",
+                "Standard_E64-16s_v3",
+                "Standard_F1",
+                "Standard_F2",
+                "Standard_F4",
+                "Standard_F8",
+                "Standard_F16",
+                "Standard_F1s",
+                "Standard_F2s",
+                "Standard_F4s",
+                "Standard_F8s",
+                "Standard_F16s",
+                "Standard_F2s_v2",
+                "Standard_F4s_v2",
+                "Standard_F8s_v2",
+                "Standard_F16s_v2",
+                "Standard_F32s_v2",
+                "Standard_F64s_v2",
+                "Standard_F72s_v2",
+                "Standard_G1",
+                "Standard_G2",
+                "Standard_G3",
+                "Standard_G4",
+                "Standard_G5",
+                "Standard_GS1",
+                "Standard_GS2",
+                "Standard_GS3",
+                "Standard_GS4",
+                "Standard_GS5",
+                "Standard_GS4-8",
+                "Standard_GS4-4",
+                "Standard_GS5-16",
+                "Standard_GS5-8",
+                "Standard_H8",
+                "Standard_H16",
+                "Standard_H8m",
+                "Standard_H16m",
+                "Standard_H16r",
+                "Standard_H16mr",
+                "Standard_L4s",
+                "Standard_L8s",
+                "Standard_L16s",
+                "Standard_L32s",
+                "Standard_M64s",
+                "Standard_M64ms",
+                "Standard_M128s",
+                "Standard_M128ms",
+                "Standard_M64-32ms",
+                "Standard_M64-16ms",
+                "Standard_M128-64ms",
+                "Standard_M128-32ms",
+                "Standard_NC6",
+                "Standard_NC12",
+                "Standard_NC24",
+                "Standard_NC24r",
+                "Standard_NC6s_v2",
+                "Standard_NC12s_v2",
+                "Standard_NC24s_v2",
+                "Standard_NC24rs_v2",
+                "Standard_NC6s_v3",
+                "Standard_NC12s_v3",
+                "Standard_NC24s_v3",
+                "Standard_NC24rs_v3",
+                "Standard_ND6s",
+                "Standard_ND12s",
+                "Standard_ND24s",
+                "Standard_ND24rs",
+                "Standard_NV6",
+                "Standard_NV12",
+                "Standard_NV24"
+            ],
             "metadata": {
                 "description": "The size of the VM"
             }
@@ -78,11 +235,18 @@
                 "description": "Name of the VNET"
             }
         },
-        "subnetName": {
+        "North Subnet": {
             "type": "string",
             "defaultValue": "Subnet",
             "metadata": {
-                "description": "Name of the subnet in the virtual network"
+                "description": "Name of the northbound subnet in the virtual network"
+            }
+        },
+        "South Subnet": {
+            "type": "string",
+            "defaultValue": "Subnet",
+            "metadata": {
+                "description": "Name of the southbound subnet in the virtual network"
             }
         },
         "networkSecurityGroupName": {
@@ -95,11 +259,16 @@
     },
     "variables": {
         "publicIpAddressName": "[concat(parameters('directorName'), 'PublicIP' )]",
-        "networkInterfaceName": "[concat(parameters('directorName'),'NetInt')]",
-        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('subnetName'))]",
+        "northNetworkInterfaceName": "[concat(parameters('directorName'),'NorthNetInt')]",
+        "southNetworkInterfaceName": "[concat(parameters('directorName'),'SouthNetInt')]",
+        "northSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('North Subnet'))]",
+        "southSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('South Subnet'))]",
         "osDiskType": "Standard_LRS",
-        "subnetAddressPrefix": "10.1.0.0/24",
-        "addressPrefix": "10.1.0.0/16",
+        "northSubnetvnetAddressPrefix": "10.1.0.0/24",
+        "southSubnetvnetAddressPrefix": "10.2.0.0/24",
+        "vnetAddressPrefix": "10.1.0.0/16",
+        "location": "[resourceGroup().location]",
+        "dnsLabelPrefix": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
         "linuxConfiguration": {
             "disablePasswordAuthentication": true,
             "ssh": {
@@ -116,8 +285,8 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('networkInterfaceName')]",
-            "location": "[parameters('location')]",
+            "name": "[variables('northNetworkInterfaceName')]",
+            "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
@@ -129,7 +298,7 @@
                         "name": "ipconfig1",
                         "properties": {
                             "subnet": {
-                                "id": "[variables('subnetRef')]"
+                                "id": "[variables('northSubnetRef')]"
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
@@ -144,10 +313,19 @@
             }
         },
         {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-10-01",
+            "name": "[variables('southNetworkInterfaceName')]",
+            "location": "[variables('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+            ]
+        },
+        {
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2019-02-01",
             "name": "[parameters('networkSecurityGroupName')]",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
                 "securityRules": [
                     {
@@ -157,10 +335,36 @@
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
-                            "sourceAddressPrefix": "*",
+                            "sourcevnetAddressPrefix": "*",
                             "sourcePortRange": "*",
-                            "destinationAddressPrefix": "*",
+                            "destinationvnetAddressPrefix": "*",
                             "destinationPortRange": "22"
+                        }
+                    },
+                    {
+                        "name": "HTTP",
+                        "properties": {
+                            "priority": 1000,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourcevnetAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationvnetAddressPrefix": "*",
+                            "destinationPortRange": "80"
+                        }
+                    },
+                    {
+                        "name": "HTTPS",
+                        "properties": {
+                            "priority": 1000,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourcevnetAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationvnetAddressPrefix": "*",
+                            "destinationPortRange": "443"
                         }
                     }
                 ]
@@ -170,18 +374,26 @@
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2019-04-01",
             "name": "[parameters('virtualNetworkName')]",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
                 "addressSpace": {
-                    "addressPrefixes": [
-                        "[variables('addressPrefix')]"
+                    "vnetAddressPrefixes": [
+                        "[variables('vnetAddressPrefix')]"
                     ]
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('subnetName')]",
+                        "name": "[parameters('North Subnet')]",
                         "properties": {
-                            "addressPrefix": "[variables('subnetAddressPrefix')]",
+                            "vnetAddressPrefix": "[variables('northSubnetvnetAddressPrefix')]",
+                            "privateEndpointNetworkPolicies": "Enabled",
+                            "privateLinkServiceNetworkPolicies": "Enabled"
+                        }
+                    },
+                    {
+                        "name": "[parameters('South Subnet')]",
+                        "properties": {
+                            "vnetAddressPrefix": "[variables('southSubnetvnetAddressPrefix')]",
                             "privateEndpointNetworkPolicies": "Enabled",
                             "privateLinkServiceNetworkPolicies": "Enabled"
                         }
@@ -193,12 +405,12 @@
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2019-02-01",
             "name": "[variables('publicIpAddressName')]",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "properties": {
-                "publicIpAllocationMethod": "Dynamic",
+                "publicIpAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+                    "domainNameLabel": "[variables('dnsLabelPrefix')]"
                 },
                 "idleTimeoutInMinutes": 4
             },
@@ -211,16 +423,17 @@
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
             "name": "[parameters('directorName')]",
-            "location": "[parameters('location')]",
+            "location": "[variables('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('northNetworkInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('southNetworkInterfaceName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('VmSize')]"
                 },
-                 "storageProfile": {
-                     "osDisk": {
+                "storageProfile": {
+                    "osDisk": {
                         "createOption": "fromImage",
                         "managedDisk": {
                             "storageAccountType": "[variables('osDiskType')]"
@@ -233,7 +446,10 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('northNetworkInterfaceName'))]"
+                        },
+                         {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('southNetworkInterfaceName'))]"
                         }
                     ]
                 },
