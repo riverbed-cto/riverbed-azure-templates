@@ -47,9 +47,16 @@
                 "description": "Name of the Shared Image Gallery."
             }
         },
-        "galleryImageDefinitionName": {
+        "galleryFlexVNFImageDefinitionName": {
             "type": "string",
             "defaultValue": "SteelConnect-EX-FlexVNF",
+            "metadata": {
+                "description": "Name of the Image Definition."
+            }
+        },
+        "galleryDirectorImageDefinitionName": {
+            "type": "string",
+            "defaultValue": "SteelConnect-EX-Director",
             "metadata": {
                 "description": "Name of the Image Definition."
             }
@@ -61,7 +68,7 @@
                 "description": "Name of the Image Version - should follow <MajorVersion>.<MinorVersion>.<Patch>."
             }
         },
-        "Director Size": {
+        "DirectorSize": {
             "type": "string",
             "defaultValue": "Standard_F8s_v2",
             "allowedValues": [
@@ -236,7 +243,7 @@
                 "description": "The size of the VM"
             }
         },
-        "Controller Size": {
+        "ControllerSize": {
             "type": "string",
             "defaultValue": "Standard_F8s_v2",
             "allowedValues": [
@@ -445,8 +452,8 @@
         "directorNorthNetworkInterfaceName": "[concat(parameters('directorName'),'NorthNetInt')]",
         "directorMiddleNetworkInterfaceName": "[concat(parameters('directorName'),'MiddleNetInt')]",
         "controllerPublicIpAddressName": "[concat(parameters('controllerName'), 'PublicIP' )]",
-        "controllerMiddleNetworkInterfaceName": "[concat(parameters('directorName'),'MiddleNetInt')]",
-        "controllerSouthNetworkInterfaceName": "[concat(parameters('directorName'),'ControllerNetInt')]",
+        "controllerMiddleNetworkInterfaceName": "[concat(parameters('controller'),'MiddleNetInt')]",
+        "controllerSouthNetworkInterfaceName": "[concat(parameters('controller'),'ControllerNetInt')]",
         "northSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('North Subnet'))]",
         "middleSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Middle Subnet'))]",
         "southSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('South Subnet'))]",
@@ -716,7 +723,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('Director Size')]"
+                    "vmSize": "[parameters('DirectorSize')]"
                 },
                 "storageProfile": {
                     "osDisk": {
@@ -764,7 +771,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "[parameters('Controller Size')]"
+                    "vmSize": "[parameters('ControllerSize')]"
                 },
                 "storageProfile": {
                     "osDisk": {
