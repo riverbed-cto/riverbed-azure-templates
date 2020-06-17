@@ -1,0 +1,16 @@
+{
+  "$schema": "https://aka.ms/azure-quickstart-templates-metadata-schema#",
+  "itemDisplayName": "Deploy a SteelConnect-EX Director",
+  "description": "This template deploy a SteelConnect-EX Director with a few options. You can provide the Director Name, and size, admin username and password. As default the VM size is Standard_B2s.",
+  "summary": "This template takes a minimum amount of parameters and deploys a simple SteelConnect-EX Director, using the latest version.",
+  "githubUsername": "bmoore-msft",
+  "dateUpdated": "2020-03-07",
+  "type": "QuickStart",
+  "tags": {
+      "subscriptiontype": "Azure4Student",
+      "resource": "VM",
+      "os": "Linux, Ubuntu",
+      "level": "Beginner",
+      "cost": "$$"
+  }
+}
