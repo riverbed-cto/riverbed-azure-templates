@@ -2,21 +2,21 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "directorName": {
+        "directorNamePrefix": {
             "type": "string",
             "defaultValue": "director",
             "metadata": {
                 "description": "The name of you SteelConnect-EX Director."
             }
         },
-        "routerName": {
+        "routerNamePrefix": {
             "type": "string",
             "defaultValue": "router",
             "metadata": {
                 "description": "The name of you SteelConnect-EX Router."
             }
         },
-        "controllerName": {
+        "controllerNamePrefix": {
             "type": "string",
             "defaultValue": "controller",
             "metadata": {
@@ -637,17 +637,23 @@
         }
     },
     "variables": {
-        "directorPublicIpAddressName": "[concat(parameters('directorName'), 'PublicIP' )]",
-        "directorManagementSubnetInterfaceName": "[concat(parameters('directorName'),'MgmtInt')]",
-        "directorDirectorSubnetInterfaceName": "[concat(parameters('directorName'),'DirectorInt')]",
-        "routerPublicIpAddressName": "[concat(parameters('routerName'), 'PublicIP' )]",
-        "routerDirectorSubnetInterfaceName": "[concat(parameters('routerName'),'DirectorInt')]",
-        "routerManagementSubnetInterfaceName": "[concat(parameters('routerName'),'MgmtInt')]",
-        "routerRouterSubnetInterfaceName": "[concat(parameters('routerName'),'RouterInt')]",
-        "controllerPublicIpAddressName": "[concat(parameters('controllerName'), 'PublicIP' )]",
-        "controllerRouterSubnetInterfaceName": "[concat(parameters('controllerName'),'RouterInt')]",
-        "controllerManagementSubnetInterfaceName": "[concat(parameters('controllerName'),'MgmtInt')]",
-        "controllerControllerSubnetInterfaceName": "[concat(parameters('controllerName'),'ControllerInt')]",
+        "directorAZ1Name": "[concat(parameters('directorNamePrefix'), '-1')]",
+        "routerAZ1Name": "[concat(parameters('routerNamePrefix'), '-1')]",
+        "controllerAZ1Name": "[concat(parameters('controllerNamePrefix'), '-1')]",
+        "directorAZ1PublicIpAddressName": "[concat(variables('directorAZ1Name'), '-PublicIP' )]",
+        "directorAZ1ManagementSubnetInterfaceName": "[concat(variables('directorAZ1Name'), '-MgmtInt')]",
+        "directorAZ1DirectorSubnetInterfaceName": "[concat(variables('directorAZ1Name'), '-DirectorInt')]",
+        "routerAZ1PublicIpAddressName": "[concat(variables('routerAZ1Name'), '-PublicIP' )]",
+        "routerAZ1DirectorSubnetInterfaceName": "[concat(variables('routerAZ1Name'), '-DirectorInt')]",
+        "routerAZ1ManagementSubnetInterfaceName": "[concat(variables('routerAZ1Name'), '-MgmtInt')]",
+        "routerAZ1RouterSubnetInterfaceName": "[concat(variables('routerAZ1Name'), '-RouterInt')]",
+        "controllerAZ1PublicIpAddressName": "[concat(variables('controllerAZ1Name'), '-PublicIP' )]",
+        "controllerAZ1RouterSubnetInterfaceName": "[concat(variables('controllerAZ1Name'), '-RouterInt')]",
+        "controllerAZ1ManagementSubnetInterfaceName": "[concat(variables('controllerAZ1Name'), '-MgmtInt')]",
+        "controllerAZ1ControllerSubnetInterfaceName": "[concat(variables('controllerAZ1Name'), '-ControllerInt')]",
+        "directorAZ1DnsLabelPrefix": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
+        "routerAZ1DnsLabelPrefix": "[toLower(concat('router-', uniqueString(resourceGroup().id)))]",
+        "controllerAZ1DnsLabelPrefix": "[toLower(concat('controller-', uniqueString(resourceGroup().id)))]",
         "managementSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Management Subnet'))]",
         "directorSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Director Subnet'))]",
         "routerSubnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Router Subnet'))]",
@@ -659,9 +665,7 @@
         "controllerSubnetAddressPrefix": "10.1.4.0/24",
         "vnetAddressPrefix": "10.1.0.0/16",
         "location": "[resourceGroup().location]",
-        "directorDnsLabelPrefix": "[toLower(concat('director-', uniqueString(resourceGroup().id)))]",
-        "routerDnsLabelPrefix": "[toLower(concat('router-', uniqueString(resourceGroup().id)))]",
-        "controllerDnsLabelPrefix": "[toLower(concat('controller-', uniqueString(resourceGroup().id)))]",
+        "AZ1Zone": "1",
         "networkSecurityGroupName": "[concat('SecGroupNet-', uniqueString(resourceGroup().id))]",
         "linuxConfiguration": {
             "disablePasswordAuthentication": true,
@@ -679,12 +683,12 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('directorManagementSubnetInterfaceName')]",
+            "name": "[variables('directorAZ1ManagementSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('directorPublicIpAddressName'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('directorAZ1PublicIpAddressName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -698,7 +702,7 @@
                             "privateIPAddressVersion": "IPv4",
                             "privateIPAddress": "10.1.1.20",
                             "publicIpAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('directorPublicIpAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('directorAZ1PublicIpAddressName'))]"
                             }
                         }
                     }
@@ -711,7 +715,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('directorDirectorSubnetInterfaceName')]",
+            "name": "[variables('directorAZ1DirectorSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
@@ -736,7 +740,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('routerDirectorSubnetInterfaceName')]",
+            "name": "[variables('routerAZ1DirectorSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
@@ -760,12 +764,12 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('routerManagementSubnetInterfaceName')]",
+            "name": "[variables('routerAZ1ManagementSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('routerPublicIpAddressName'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('routerAZ1PublicIpAddressName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -779,7 +783,7 @@
                             "privateIPAddressVersion": "IPv4",
                             "privateIPAddress": "10.1.1.30",
                             "publicIpAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('routerPublicIpAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('routerAZ1PublicIpAddressName'))]"
                             }
                         }
                     }
@@ -789,7 +793,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('routerRouterSubnetInterfaceName')]",
+            "name": "[variables('routerAZ1RouterSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
@@ -813,7 +817,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('controllerRouterSubnetInterfaceName')]",
+            "name": "[variables('controllerAZ1RouterSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
@@ -837,12 +841,12 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('controllerManagementSubnetInterfaceName')]",
+            "name": "[variables('controllerAZ1ManagementSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('controllerPublicIpAddressName'))]"
+                "[resourceId('Microsoft.Network/publicIpAddresses/', variables('controllerAZ1PublicIpAddressName'))]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -856,7 +860,7 @@
                             "privateIPAddressVersion": "IPv4",
                             "privateIPAddress": "10.1.1.40",
                             "publicIpAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('controllerPublicIpAddressName'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('controllerAZ1PublicIpAddressName'))]"
                             }
                         }
                     }
@@ -866,7 +870,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2018-10-01",
-            "name": "[variables('controllerControllerSubnetInterfaceName')]",
+            "name": "[variables('controllerAZ1ControllerSubnetInterfaceName')]",
             "location": "[variables('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
@@ -986,13 +990,16 @@
         {
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2019-02-01",
-            "name": "[variables('directorPublicIpAddressName')]",
+            "name": "[variables('directorAZ1PublicIpAddressName')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "properties": {
                 "publicIpAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('directorDnsLabelPrefix')]"
+                    "domainNameLabel": "[variables('directorAZ1DnsLabelPrefix')]"
                 },
                 "idleTimeoutInMinutes": 4
             },
@@ -1004,13 +1011,16 @@
         {
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2019-02-01",
-            "name": "[variables('routerPublicIpAddressName')]",
+            "name": "[variables('routerAZ1PublicIpAddressName')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "properties": {
                 "publicIpAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('routerDnsLabelPrefix')]"
+                    "domainNameLabel": "[variables('routerAZ1DnsLabelPrefix')]"
                 },
                 "idleTimeoutInMinutes": 4
             },
@@ -1022,13 +1032,16 @@
         {
             "type": "Microsoft.Network/publicIpAddresses",
             "apiVersion": "2019-02-01",
-            "name": "[variables('controllerPublicIpAddressName')]",
+            "name": "[variables('controllerAZ1PublicIpAddressName')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "properties": {
                 "publicIpAllocationMethod": "Static",
                 "publicIPAddressVersion": "IPv4",
                 "dnsSettings": {
-                    "domainNameLabel": "[variables('controllerDnsLabelPrefix')]"
+                    "domainNameLabel": "[variables('controllerAZ1DnsLabelPrefix')]"
                 },
                 "idleTimeoutInMinutes": 4
             },
@@ -1040,11 +1053,14 @@
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('directorName')]",
+            "name": "[variables('directorAZ1Name')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('directorManagementSubnetInterfaceName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('directorDirectorSubnetInterfaceName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('directorAZ1ManagementSubnetInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('directorAZ1DirectorSubnetInterfaceName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
@@ -1064,13 +1080,13 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorManagementSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorAZ1ManagementSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": true
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorDirectorSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorAZ1DirectorSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": false
                             }
@@ -1078,7 +1094,7 @@
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[parameters('directorName')]",
+                    "computerName": "[variables('directorAZ1Name')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPasswordOrKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
@@ -1088,12 +1104,15 @@
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('routerName')]",
+            "name": "[variables('routerAZ1Name')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerDirectorSubnetInterfaceName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerManagementSubnetInterfaceName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerRouterSubnetInterfaceName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerAZ1DirectorSubnetInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerAZ1ManagementSubnetInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('routerAZ1RouterSubnetInterfaceName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
@@ -1113,19 +1132,19 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerDirectorSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerAZ1DirectorSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": false
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerManagementSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerAZ1ManagementSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": true
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerRouterSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('routerAZ1RouterSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": false
                             }
@@ -1133,7 +1152,7 @@
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[parameters('routerName')]",
+                    "computerName": "[variables('routerAZ1Name')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPasswordOrKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
@@ -1143,12 +1162,15 @@
         {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('controllerName')]",
+            "name": "[variables('controllerAZ1Name')]",
             "location": "[variables('location')]",
+            "zones": [
+                "[variables('AZ1Zone')]"
+            ],
             "dependsOn": [
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerRouterSubnetInterfaceName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerManagementSubnetInterfaceName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerControllerSubnetInterfaceName'))]"
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerAZ1RouterSubnetInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerAZ1ManagementSubnetInterfaceName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces/', variables('controllerAZ1ControllerSubnetInterfaceName'))]"
             ],
             "properties": {
                 "hardwareProfile": {
@@ -1168,19 +1190,19 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerRouterSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerAZ1RouterSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": false
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerManagementSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerAZ1ManagementSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": true
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerControllerSubnetInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerAZ1ControllerSubnetInterfaceName'))]",
                             "properties": {
                                 "primary": false
                             }
@@ -1188,7 +1210,7 @@
                     ]
                 },
                 "osProfile": {
-                    "computerName": "[parameters('controllerName')]",
+                    "computerName": "[variables('controllerAZ1Name')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPasswordOrKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]"
@@ -1203,19 +1225,19 @@
         },
         "hostname": {
             "type": "string",
-            "value": "[reference(variables('directorPublicIpAddressName')).dnsSettings.fqdn]"
+            "value": "[reference(variables('directorAZ1PublicIpAddressName')).dnsSettings.fqdn]"
         },
-        "ssh command director": {
+        "ssh command director-1": {
             "type": "string",
-            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('directorPublicIpAddressName')).dnsSettings.fqdn)]"
+            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('directorAZ1PublicIpAddressName')).dnsSettings.fqdn)]"
         },
-        "ssh command router": {
+        "ssh command router-1": {
             "type": "string",
-            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('routerPublicIpAddressName')).dnsSettings.fqdn)]"
+            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('routerAZ1PublicIpAddressName')).dnsSettings.fqdn)]"
         },
-        "ssh command controller": {
+        "ssh command controller-1": {
             "type": "string",
-            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('controllerPublicIpAddressName')).dnsSettings.fqdn)]"
+            "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('controllerAZ1PublicIpAddressName')).dnsSettings.fqdn)]"
         }
     }
 }
