@@ -747,7 +747,7 @@
                         {
                             "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorMiddleNetworkInterfaceName'))]",
                             "properties": {
-                                "primary": true
+                                "primary": false
                             }
                         }
                     ]
@@ -795,7 +795,7 @@
                         {
                             "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerSouthNetworkInterfaceName'))]",
                             "properties": {
-                                "primary": true
+                                "primary": false
                             }
                         }
                     ]
