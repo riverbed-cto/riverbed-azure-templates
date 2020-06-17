@@ -745,7 +745,7 @@
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorMiddleNetworkInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('directorMiddleNetworkInterfaceName'))]"
                         }
                     ]
                 },
@@ -790,7 +790,7 @@
                             }
                         },
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerSouthNetworkInterfaceName'))]",
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('controllerSouthNetworkInterfaceName'))]"
                         }
                     ]
                 },
