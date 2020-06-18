@@ -675,6 +675,7 @@
         "directorSubnetRef":"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Director Subnet'))]",
         "routerSubnetRef":"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Router Subnet'))]",
         "controllerSubnetRef":"[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('virtualNetworkName'), parameters('Controller Subnet'))]",
+        "rvbdSIGURI": "/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/",
         "osDiskType":"Standard_LRS",
         "managementSubnetAddressPrefix":"10.1.1.0/24",
         "directorSubnetAddressPrefix":"10.1.2.0/24",
@@ -1364,7 +1365,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-Director/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryDirectorImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
@@ -1416,7 +1417,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-FlexVNF/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryFlexVNFImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
@@ -1474,7 +1475,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-FlexVNF/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryFlexVNFImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
@@ -1531,7 +1532,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-Director/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryDirectorImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
@@ -1583,7 +1584,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-FlexVNF/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryFlexVNFImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
@@ -1641,7 +1642,7 @@
                         }
                     },
                     "imageReference":{
-                        "id":"/subscriptions/89660a03-4891-4177-bf0c-b3327f492931/resourceGroups/StoreRG/providers/Microsoft.Compute/galleries/Images/images/SteelConnect-EX-FlexVNF/versions/20.2.1"
+                        "id":"[concat(variables('rvbdSIGURI'), parameters('galleryName'), '/images/', parameters('galleryFlexVNFImageDefinitionName'), '/versions/', parameters('galleryImageVersionName'))]"
                     }
                 },
                 "networkProfile":{
