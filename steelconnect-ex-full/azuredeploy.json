@@ -634,6 +634,13 @@
             "metadata":{
                 "description":"Name of the controller subnet in the virtual network"
             }
+        },
+        "TrafficManagerProfileName":{
+            "type":"string",
+            "defaultValue":"rvbd-smsaas",
+            "metadata":{
+                "description":"Name of the traffic manager profile providing redundant access to Director."
+            }
         }
     },
     "variables":{
@@ -1342,6 +1349,65 @@
             }
         },
         {
+            "type": "Microsoft.Network/trafficManagerProfiles",
+            "apiVersion": "2018-04-01",
+            "name": "[parameters('TrafficManagerProfileName')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('directorAZ1PublicIpAddressName'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('directorAZ2PublicIpAddressName'))]"
+            ],
+            "properties": {
+                "profileStatus": "Enabled",
+                "trafficRoutingMethod": "Priority",
+                "dnsConfig": {
+                    "relativeName": "[parameters('TrafficManagerProfileName')]",
+                    "ttl": 60
+                },
+                "monitorConfig": {
+                    "profileMonitorStatus": "Online",
+                    "protocol": "HTTP",
+                    "port": 80,
+                    "path": "/",
+                    "intervalInSeconds": 30,
+                    "toleratedNumberOfFailures": 3,
+                    "timeoutInSeconds": 10
+                },
+                "endpoints": [
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/trafficManagerProfiles', parameters('TrafficManagerProfileName')), '/azureEndpoints/director-1-endpoint')]",
+                        "name": "director-1-endpoint",
+                        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                        "properties": {
+                            "endpointStatus": "Enabled",
+                            "endpointMonitorStatus": "Online",
+                            "targetResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('directorAZ1PublicIpAddressName'))]",
+                            "target": "[resourceId('Microsoft.Compute/virtualMachines', variables('directorAZ1Name'))]",
+                            "weight": 1,
+                            "priority": 1,
+                            "endpointLocation": "[resourceGroup().location]"
+                        }
+                    },
+                    {
+                        "id": "[concat(resourceId('Microsoft.Network/trafficManagerProfiles', parameters('TrafficManagerProfileName')), '/azureEndpoints/director-2-endpoint')]",
+                        "name": "director-2-endpoint",
+                        "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+                        "properties": {
+                            "endpointStatus": "Enabled",
+                            "endpointMonitorStatus": "Online",
+                            "targetResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('directorAZ2PublicIpAddressName'))]",
+                            "target": "[resourceId('Microsoft.Compute/virtualMachines', variables('directorAZ2Name'))]",
+                            "weight": 1,
+                            "priority": 2,
+                            "endpointLocation": "[resourceGroup().location]"
+                        }
+                    }
+                ],
+                "trafficViewEnrollmentStatus": "Disabled",
+                "maxReturn": 0
+            }
+        },
+        {
             "type":"Microsoft.Compute/virtualMachines",
             "apiVersion":"2019-03-01",
             "name":"[variables('directorAZ1Name')]",
@@ -1680,6 +1746,10 @@
         "adminUsername":{
             "type":"string",
             "value":"[parameters('adminUsername')]"
+        },
+        "hostname traffic manager":{
+            "type":"string",
+            "value":"[concat(parameters('TrafficManagerProfileName'), '.trafficmanager.net')]"
         },
         "hostname director-1":{
             "type":"string",
